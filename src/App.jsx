@@ -174,7 +174,7 @@ const Input = styled.textarea`
   border-bottom: black 1px solid;
   width: 100%;
   outline: none;
-  font-size: min(10vw, 4rem);
+  font-size: min(10vw, 3rem);
   font-family: 'Cabinet Grotesk';
   height: 400px;
   resize: none;
