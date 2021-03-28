@@ -1,5 +1,7 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
+// import autosize from 'autosize';
+import Header from './components/Header';
 
 const alphabet = [
   'a',
@@ -30,25 +32,61 @@ const alphabet = [
   'z',
 ];
 
+const initial = [
+  { letter: 'a', typed: false },
+  { letter: 'b', typed: false },
+  { letter: 'c', typed: false },
+  { letter: 'd', typed: false },
+  { letter: 'e', typed: false },
+  { letter: 'f', typed: false },
+  { letter: 'g', typed: false },
+  { letter: 'h', typed: false },
+  { letter: 'i', typed: false },
+  { letter: 'j', typed: false },
+  { letter: 'k', typed: false },
+  { letter: 'l', typed: false },
+  { letter: 'm', typed: false },
+  { letter: 'n', typed: false },
+  { letter: 'o', typed: false },
+  { letter: 'p', typed: false },
+  { letter: 'q', typed: false },
+  { letter: 'r', typed: false },
+  { letter: 's', typed: false },
+  { letter: 't', typed: false },
+  { letter: 'u', typed: false },
+  { letter: 'v', typed: false },
+  { letter: 'w', typed: false },
+  { letter: 'x', typed: false },
+  { letter: 'y', typed: false },
+  { letter: 'z', typed: false },
+];
+
 function App() {
   const [text, setText] = useState('');
-  const [matchedLetters, setMatchedLetters] = useState([]);
+  const [matchedLetters, setMatchedLetters] = useState(initial);
   const [numMatched, setNumMatched] = useState(0);
+  const [inputLength, setInputLength] = useState(0);
+  const textAreaRef = useRef(null);
+
+  useEffect(() => {
+    if (textAreaRef.current) textAreaRef.current.focus();
+  }, []);
 
   const handleInput = (event) => {
     let matches = [];
     setText(event.target.value.toLowerCase());
-    let toParse = event.target.value.replace(/\s+/g, '').toLowerCase();
+    const toParse = event.target.value.replace(/[^a-z]/g, '').toLowerCase();
     [...toParse].forEach((letter) => {
       if (!matches.includes(letter)) matches.push(letter);
       matches.sort();
-      console.log(matches);
     });
     const res = alphabet.map((letter) => {
       return matches.includes(letter)
         ? { letter, typed: true }
         : { letter, typed: false };
     });
+    console.log(toParse.length);
+    setInputLength(toParse.length);
     setMatchedLetters(res);
   };
 
@@ -59,18 +97,35 @@ function App() {
 
   return (
     <Container>
-      {/* <h1>pangrammr</h1> */}
-      <Input type="text" value={text} onChange={handleInput} />
-      <Letters>
-        {matchedLetters.map((l) => (
-          <P typed={l.typed} key={l.letter}>
-            {l.letter}
-          </P>
-        ))}
-      </Letters>
-      <div>
-        <p>{numMatched}/26</p>
-      </div>
+      <Header />
+      <MainContent>
+        <Input
+          ref={textAreaRef}
+          type="text"
+          value={text}
+          onChange={handleInput}
+        />
+        <Letters>
+          {matchedLetters.map((l) => (
+            <P typed={l.typed} key={l.letter}>
+              {l.letter}
+            </P>
+          ))}
+        </Letters>
+        <Matched matched={numMatched}>
+          <p>{numMatched}/26</p>
+        </Matched>
+        <div style={{ height: '20px', textAlign: 'center' }}>
+          {numMatched == 26 && (
+            <p>You found a pangram in {inputLength} letters!</p>
+          )}
+        </div>
+      </MainContent>
+      <Footer>
+        <a href="https://twitter.com/jhrtn" target="_blank" rel="noreferrer">
+          <p>show me your pangrams @jhrtn</p>
+        </a>
+      </Footer>
     </Container>
   );
 }
@@ -79,34 +134,72 @@ export default App;
 
 const Container = styled.div`
   min-height: 100vh;
-  min-width: 100vw;
+  max-width: 100vw;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  padding: min(64px, 8vw);
+  /* align-items: center; */
   justify-content: center;
+  max-width: 1440px;
+  margin: 0 auto;
+`;
+
+const MainContent = styled.div`
+  display: flex;
+  justify-content: space-around;
+  flex-direction: column;
 `;
 
 const Letters = styled.div`
+  text-align: center;
   display: flex;
+  align-self: center;
+  margin-top: 64px;
+  max-width: 100%;
+  flex-wrap: wrap;
 `;
 
-const Input = styled.input`
+const Matched = styled.div`
+  align-self: center;
+  margin: 32px;
+  color: ${(props) =>
+    props.matched > 0 ? `rgba(0,0,0,${props.matched / 26})` : 'transparent'};
+`;
+
+const Input = styled.textarea`
   padding: 0.5em;
-  margin: 0.5em;
   color: black;
   background: transparent;
   border: none;
   border-bottom: black 1px solid;
-
+  width: 100%;
   outline: none;
-  min-width: 400px;
-  width: 100vw;
-  font-size: 4rem;
+  font-size: min(10vw, 4rem);
   font-family: 'Cabinet Grotesk';
+  height: 400px;
+  resize: none;
 `;
 
-let P = styled.p`
+const P = styled.span`
   color: ${(props) => (props.typed ? '#000' : '#A8A8A8')};
   letter-spacing: 1rem;
   font-size: 2rem;
+`;
+
+const Footer = styled.div`
+  position: fixed;
+  bottom: 0;
+  margin: 32px;
+  color: #a8a8a8;
+
+  p {
+    font-size: 14px;
+  }
+  a {
+    transition: color 0.4s linear;
+    color: #a8a8a8;
+    :hover {
+      color: #000;
+    }
+  }
 `;
