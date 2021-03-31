@@ -116,7 +116,7 @@ const Input = styled.textarea`
   outline: none;
   font-size: min(10vw, 3rem);
   font-family: 'Cabinet Grotesk';
-  height: 400px;
+  height: 30vh;
   resize: none;
 `;
 
