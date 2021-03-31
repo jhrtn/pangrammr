@@ -17,11 +17,11 @@ const Header = () => {
 export default Header;
 
 const H1 = styled.h1`
-  font-size: min(10vw, 4rem);
+  font-size: min(10vw, 3rem);
   font-weight: 500;
 `;
 
 const Tooltip = styled.p`
-  margin-left: 32px;
+  margin-left: 8px;
   color: #a8a8a8;
 `;

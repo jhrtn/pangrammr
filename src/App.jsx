@@ -27,7 +27,6 @@ function App() {
         ? { letter, typed: true }
         : { letter, typed: false };
     });
-    console.log(toParse.length);
     setInputLength(toParse.length);
     setMatchedLetters(res);
   };
