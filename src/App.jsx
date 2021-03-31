@@ -1,65 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
-// import autosize from 'autosize';
 import Header from './components/Header';
-
-const alphabet = [
-  'a',
-  'b',
-  'c',
-  'd',
-  'e',
-  'f',
-  'g',
-  'h',
-  'i',
-  'j',
-  'k',
-  'l',
-  'm',
-  'n',
-  'o',
-  'p',
-  'q',
-  'r',
-  's',
-  't',
-  'u',
-  'v',
-  'w',
-  'x',
-  'y',
-  'z',
-];
-
-const initial = [
-  { letter: 'a', typed: false },
-  { letter: 'b', typed: false },
-  { letter: 'c', typed: false },
-  { letter: 'd', typed: false },
-  { letter: 'e', typed: false },
-  { letter: 'f', typed: false },
-  { letter: 'g', typed: false },
-  { letter: 'h', typed: false },
-  { letter: 'i', typed: false },
-  { letter: 'j', typed: false },
-  { letter: 'k', typed: false },
-  { letter: 'l', typed: false },
-  { letter: 'm', typed: false },
-  { letter: 'n', typed: false },
-  { letter: 'o', typed: false },
-  { letter: 'p', typed: false },
-  { letter: 'q', typed: false },
-  { letter: 'r', typed: false },
-  { letter: 's', typed: false },
-  { letter: 't', typed: false },
-  { letter: 'u', typed: false },
-  { letter: 'v', typed: false },
-  { letter: 'w', typed: false },
-  { letter: 'x', typed: false },
-  { letter: 'y', typed: false },
-  { letter: 'z', typed: false },
-];
+import { alphabet, initial } from './state';
 
 function App() {
   const [text, setText] = useState('');
@@ -138,7 +80,6 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   padding: min(64px, 8vw);
-  /* align-items: center; */
   justify-content: center;
   max-width: 1440px;
   margin: 0 auto;
